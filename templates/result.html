@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resume Match Result</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+
+  <style>
+    body { font-family: 'DM Sans', sans-serif; }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 50;
+    }
+
+    .ring-track { fill: none; stroke: #e2e8f0; stroke-width: 9; }
+    .ring-fill  {
+      fill: none; stroke: url(#rg); stroke-width: 9;
+      stroke-linecap: round;
+      stroke-dasharray: 283;
+      stroke-dashoffset: 283;
+      transform-origin: center;
+      transform: rotate(-90deg);
+      animation: ring-draw 1.4s cubic-bezier(.4,0,.2,1) .5s forwards;
+    }
+    @keyframes ring-draw { to { stroke-dashoffset: var(--offset, 70); } }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fade-up .6s ease forwards;
+    }
+    @keyframes fade-up { to { opacity: 1; transform: none; } }
+    .d1 { animation-delay: .05s; }
+    .d2 { animation-delay: .15s; }
+    .d3 { animation-delay: .25s; }
+    .d4 { animation-delay: .35s; }
+    .d5 { animation-delay: .45s; }
+    .d6 { animation-delay: .55s; }
+
+    .skill-tag { transition: transform .15s, box-shadow .15s; }
+    .skill-tag:hover { transform: translateY(-2px); }
+
+    .bar-fill {
+      width: 0;
+      animation: grow-bar 1.3s cubic-bezier(.4,0,.2,1) .7s forwards;
+    }
+    @keyframes grow-bar { to { width: var(--w, 75%); } }
+
+    .serif { font-family: 'DM Serif Display', serif; }
+  </style>
+</head>
+
+<body class="min-h-screen text-slate-800" style="background: linear-gradient(135deg, #f0f4ff 0%, #fafafa 50%, #f0fdf4 100%);">
+
+  <div class="max-w-3xl mx-auto px-5 py-14">
+
+    <div class="fade-up d1 flex items-center justify-between mb-12">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse inline-block"></span>
+        <span class="text-xs font-medium tracking-widest uppercase text-slate-400">Resume · AI Evaluator</span>
+      </div>
+      <a href="/"
+         class="text-xs tracking-widest uppercase font-semibold text-indigo-600 border border-indigo-200 hover:bg-indigo-50 px-4 py-2 rounded-full transition-all duration-200">
+        ↩ New Analysis
+      </a>
+    </div>
+
+    <div class="fade-up d2 mb-10">
+      <p class="text-xs tracking-widest uppercase text-indigo-400 font-medium mb-2">Match Report</p>
+      <h1 class="serif text-5xl leading-tight text-slate-900">
+        {{ filename.split('.')[0] | replace('_', ' ') | title }}<br/>
+        <em class="text-indigo-500 not-italic">Analysis</em>
+      </h1>
+    </div>
+
+    <div class="fade-up d3 relative rounded-3xl overflow-hidden mb-6 shadow-xl"
+         style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #1e3a5f 100%);">
+
+      <div class="absolute -top-16 -right-16 w-64 h-64 rounded-full opacity-10"
+           style="background: radial-gradient(circle, #a5b4fc, transparent);"></div>
+      <div class="absolute -bottom-12 -left-12 w-48 h-48 rounded-full opacity-10"
+           style="background: radial-gradient(circle, #6ee7b7, transparent);"></div>
+
+      <div class="relative z-10 p-8 flex flex-col sm:flex-row items-center gap-8">
+
+        <div class="relative flex-shrink-0 w-40 h-40">
+          <svg viewBox="0 0 100 100" width="160" height="160">
+            <defs>
+              <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#818cf8"/>
+                <stop offset="100%" stop-color="#34d399"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-track" cx="50" cy="50" r="45"/>
+            <circle class="ring-fill"  cx="50" cy="50" r="45"
+              id="ringFill" data-score="{{ match_score }}"/>
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span class="serif text-4xl font-bold text-white leading-none">{{ match_score }}</span>
+            <span class="text-indigo-300 text-xs tracking-widest uppercase mt-1">Score</span>
+          </div>
+        </div>
+
+        <div class="flex-1 text-center sm:text-left">
+          <p class="text-xs tracking-widest uppercase text-indigo-300 mb-2">Overall Match</p>
+          <p class="text-white text-lg font-light leading-relaxed mb-5 max-w-sm">
+            Your profile alignment: <span class="font-bold text-emerald-400">{{ match_score }}%</span>. Use the detailed breakdown below to optimize.
+          </p>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-3 rounded-2xl bg-white/5 border border-white/10">
+              <p class="text-[10px] uppercase tracking-wider text-indigo-300 mb-1">Skills Match</p>
+              <p class="text-xl font-bold text-white">{{ skill_match_score }}%</p>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/5 border border-white/10">
+              <p class="text-[10px] uppercase tracking-wider text-indigo-300 mb-1">Context Overlap</p>
+              <p class="text-xl font-bold text-white">{{ context_score }}%</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    {% if matched_skills %}
+    <div class="fade-up d4 bg-white rounded-2xl border border-emerald-100 shadow-sm p-7 mb-5">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-base border border-emerald-200">✓</div>
+        <div>
+          <p class="text-xs tracking-widest uppercase text-emerald-500 font-semibold">Strengths</p>
+          <p class="text-slate-800 font-semibold leading-tight">Skills Present in Résumé</p>
+        </div>
+        <span class="ml-auto text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+          {{ matched_skills | length }} matched
+        </span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        {% for s in matched_skills %}
+          <span class="skill-tag px-3.5 py-1.5 rounded-xl text-sm font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 shadow-sm hover:shadow-emerald-100 hover:shadow-md">
+            {{ s }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if missing_skills %}
+    <div class="fade-up d5 bg-white rounded-2xl border border-rose-100 shadow-sm p-7 mb-5">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-8 h-8 rounded-xl bg-rose-50 flex items-center justify-center text-base border border-rose-200">✕</div>
+        <div>
+          <p class="text-xs tracking-widest uppercase text-rose-500 font-semibold">Gaps</p>
+          <p class="text-slate-800 font-semibold leading-tight">Skills Missing from Résumé</p>
+        </div>
+        <span class="ml-auto text-xs font-semibold text-rose-600 bg-rose-50 border border-rose-200 px-3 py-1 rounded-full">
+          {{ missing_skills | length }} missing
+        </span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        {% for s in missing_skills %}
+          <span class="skill-tag px-3.5 py-1.5 rounded-xl text-sm font-medium text-rose-700 bg-rose-50 border border-rose-200 shadow-sm hover:shadow-rose-100 hover:shadow-md">
+            {{ s }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if suggestions %}
+    <div class="fade-up d6 bg-white rounded-2xl border border-amber-100 shadow-sm p-7 mb-5">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-8 rounded-xl bg-amber-50 flex items-center justify-center text-base border border-amber-200">⚡</div>
+        <div>
+          <p class="text-xs tracking-widest uppercase text-amber-500 font-semibold">Action Items</p>
+          <p class="text-slate-800 font-semibold leading-tight">Suggestions to Improve Your Résumé</p>
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-3">
+        {% for tip in suggestions %}
+          <div class="group relative flex gap-3 p-4 rounded-xl bg-amber-50 border border-amber-100 hover:border-amber-300 hover:shadow-sm transition-all duration-200">
+            <span class="flex-shrink-0 w-6 h-6 rounded-lg bg-amber-200 text-amber-800 text-xs font-bold flex items-center justify-center mt-0.5">
+              {{ loop.index }}
+            </span>
+            <p class="text-sm text-slate-700 leading-relaxed">{{ tip }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Template Results Preview -->
+    <div class="fade-up d6 bg-white rounded-2xl border border-slate-100 shadow-sm p-7 mb-5 overflow-hidden">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center text-base border border-slate-200">✨</div>
+        <div>
+          <p class="text-xs tracking-widest uppercase text-slate-400 font-semibold">Visual Preview</p>
+          <p class="text-slate-800 font-semibold leading-tight">Your Profile in Recommended Layout</p>
+        </div>
+      </div>
+
+      <div class="relative group bg-slate-50 rounded-2xl p-8 border border-slate-100 border-dashed">
+        <div class="max-w-sm mx-auto bg-white shadow-2xl rounded-lg p-6 transform group-hover:scale-[1.02] transition-transform duration-500">
+          <!-- Mini Template Mockup -->
+          <div class="flex items-center gap-4 border-b border-slate-100 pb-4 mb-4">
+            <div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xl">
+              {{ filename[0] | upper }}
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-900 leading-tight">{{ filename.split('.')[0] | replace('_', ' ') | title }}</h3>
+              <p class="text-[10px] text-slate-400 uppercase tracking-widest">Candidate Profile · Match: {{ match_score }}%</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="h-2 w-full bg-slate-50 rounded-full"></div>
+            <div class="h-2 w-4/5 bg-slate-50 rounded-full"></div>
+            <div class="flex gap-1.5 py-2">
+              {% for s in matched_skills[:3] %}
+                <span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[8px] font-bold rounded uppercase">{{ s }}</span>
+              {% endfor %}
+            </div>
+            <div class="h-2 w-full bg-slate-50 rounded-full"></div>
+            <div class="h-2 w-2/3 bg-slate-50 rounded-full"></div>
+          </div>
+        </div>
+        <div class="absolute inset-0 bg-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl">
+          <p class="text-indigo-600 font-bold text-xs bg-white px-4 py-2 rounded-full shadow-lg">Download This Version</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Interview Preparation Section -->
+    <div class="fade-up d6 bg-white rounded-2xl border border-indigo-100 shadow-sm p-7 mb-5">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-xl border border-indigo-100">
+            <i class="fa-solid fa-comments-question text-indigo-600"></i>
+          </div>
+          <div>
+            <p class="text-xs tracking-widest uppercase text-indigo-500 font-bold">Interview Prep</p>
+            <p class="text-slate-800 font-bold text-xl leading-tight">AI-Generated Practice Questions</p>
+          </div>
+        </div>
+        <span class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold rounded-full border border-indigo-100 uppercase tracking-widest">
+          AI Analysis
+        </span>
+      </div>
+      
+      <div class="space-y-4">
+        {% for question in interview_questions %}
+          <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100 group hover:border-indigo-200 transition-all duration-300">
+            <div class="flex items-start gap-4">
+              <span class="flex-shrink-0 w-8 h-8 bg-white text-indigo-600 text-xs font-black rounded-lg border border-slate-200 flex items-center justify-center mt-1 shadow-sm group-hover:border-indigo-400">
+                Q{{ loop.index }}
+              </span>
+              <p class="text-slate-700 font-medium leading-relaxed">{{ question }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div class="mt-8 p-5 bg-indigo-600 rounded-2xl text-white shadow-xl shadow-indigo-100">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-xl backdrop-blur-md">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <div>
+            <h4 class="font-bold mb-1 leading-tight">Prepare Your STAR Answers</h4>
+            <p class="text-[11px] text-indigo-100 leading-relaxed opacity-90">
+              Recruiters love the <strong>Situation, Task, Action, Result</strong> method. Use these questions to practice your delivery and highlight your skills effectively.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-up d6 flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 pt-8 border-t border-slate-100">
+      <a href="/"
+         class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-lg shadow-indigo-200 transition-all duration-200 hover:-translate-y-0.5">
+        ↩ Analyse Another Résumé
+      </a>
+      <p class="text-xs text-slate-400 text-center sm:text-right max-w-xs leading-relaxed">
+        Closing keyword &amp; skills gaps between your résumé and the job description will raise your score.
+      </p>
+    </div>
+
+    <div class="mt-14 text-center">
+      <div class="inline-flex items-center gap-3 mb-4">
+        <div class="h-px w-12 bg-slate-200"></div>
+        <span class="text-xs tracking-widest uppercase text-slate-400 font-medium">How the score works</span>
+        <div class="h-px w-12 bg-slate-200"></div>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed mb-8">
+        The match percentage measures lexical &amp; semantic overlap between your résumé and the job description.<br/>
+        Use the action items above to close the gap and increase your alignment.
+      </p>
+
+      <!-- Added Social Links -->
+      <div class="flex justify-center gap-4 mb-4">
+        <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-indigo-600 hover:text-white transition-all duration-300" title="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+        <a href="https://github.com/yourusername" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-slate-900 hover:text-white transition-all duration-300" title="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </div>
+      <p class="text-[10px] text-slate-300 uppercase tracking-widest font-bold">Connect with Developer</p>
+    </div>
+
+  </div>
+
+
+  <script>
+    /* Apply score-based CSS custom properties from data attributes.
+       This avoids VS Code CSS parser errors caused by Jinja2 inside style="" */
+    (function () {
+      var ring = document.getElementById('ringFill');
+      if (ring) {
+        var s = parseFloat(ring.dataset.score) || 0;
+        ring.style.setProperty('--offset', 283 - (283 * s / 100));
+      }
+      var bar = document.getElementById('barFill');
+      if (bar) {
+        var s = parseFloat(bar.dataset.score) || 0;
+        bar.style.setProperty('--w', s + '%');
+      }
+    })();
+  </script>
+</body>
+</html>

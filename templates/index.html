@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResumeAI | Smart Resume Analysis & ATS Optimization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-soft-blue { background-color: #f4f7fa; }
+        .text-resume-blue { color: #1a91f0; }
+        .bg-resume-blue { background-color: #1a91f0; }
+        
+        .typewriter::after { content: '|'; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .glass-nav { background: rgba(255, 255, 255, 0.95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+        .step-card { transition: all 0.3s ease; }
+        .step-card:hover { transform: translateY(-5px); }
+        
+        .template-card .overlay { background: rgba(26, 145, 240, 0.9); opacity: 0; transition: opacity 0.3s ease; }
+        .template-card:hover .overlay { opacity: 1; }
+    </style>
+</head>
+
+<body class="bg-white text-slate-800">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 glass-nav border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="h-8 w-8 bg-resume-blue rounded flex items-center justify-center text-white font-bold text-xl">R</div>
+                    <span class="text-xl font-extrabold tracking-tight">resume.<span class="text-resume-blue">ai</span></span>
+                </div>
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                    <a href="#home" class="hover:text-resume-blue transition">Home</a>
+                    <a href="#about" class="hover:text-resume-blue transition">About</a>
+                    <a href="#how-it-works" class="hover:text-resume-blue transition">How it Works</a>
+                    <a href="#faq" class="hover:text-resume-blue transition">FAQ</a>
+                    <a href="#contact" class="hover:text-resume-blue transition">Contact</a>
+                    <div class="h-4 w-px bg-slate-200"></div>
+                    <a href="#analyzer" class="bg-resume-blue text-white px-5 py-2.5 rounded-md font-bold hover:bg-blue-600 transition">Analyze Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative overflow-hidden pt-16 pb-12 lg:pt-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="z-10">
+                <h1 class="text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-6">
+                    This AI resume analyzer gets you <br>
+                    <span class="text-resume-blue typewriter" id="typewriter">a remote job</span>
+                </h1>
+                <p class="text-xl text-slate-500 mb-10 max-w-lg">
+                    Only 2% of resumes win. Yours will be one of them. Analyze and optimize your resume for ATS success.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                    <a href="#analyzer" class="px-8 py-4 bg-resume-blue text-white text-center font-bold rounded-md shadow-lg shadow-blue-200 hover:bg-blue-600 transition text-lg">
+                        Analyze my resume
+                    </a>
+                    <a href="#templates" class="px-8 py-4 bg-blue-50 text-resume-blue text-center font-bold rounded-md hover:bg-blue-100 transition text-lg border border-blue-100">
+                        
+                    </a>
+                </div>
+                <div class="flex items-center gap-6 text-sm text-slate-400">
+                    <div class="flex items-center gap-2 text-green-600 font-semibold">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>39% more likely to land the job</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex text-yellow-400 gap-0.5">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <span class="font-medium">4.6/5 Trustpilot</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative hidden lg:block">
+                <div class="absolute -top-20 -right-20 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
+                <div class="relative bg-white border border-slate-100 rounded-2xl shadow-2xl p-6 transform rotate-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-slate-100 overflow-hidden">
+                                <img src="https://i.pravatar.cc/100?img=32" alt="Avatar">
+                            </div>
+                            <div>
+                                <div class="h-3 w-24 bg-slate-200 rounded-full mb-2"></div>
+                                <div class="h-2 w-16 bg-slate-100 rounded-full"></div>
+                            </div>
+                        </div>
+                        <div class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">84% Score</div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="h-2 w-full bg-slate-50 rounded-full"></div>
+                        <div class="h-2 w-4/5 bg-slate-50 rounded-full"></div>
+                        <div class="flex gap-2 py-4">
+                            <div class="px-3 py-1 border border-slate-200 rounded-md text-[10px] font-bold text-slate-400 uppercase">Python</div>
+                            <div class="px-3 py-1 border border-resume-blue text-resume-blue bg-blue-50 rounded-md text-[10px] font-bold">+ Add skill</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="bg-white border-y border-slate-100 py-8">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-resume-blue">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <span class="text-2xl font-bold text-slate-800">53,523 resumes created today</span>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-soft-blue">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-slate-900 mb-4">Why ResumeAI?</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto text-lg">We use advanced algorithms to help your resume pass the Applicant Tracking Systems (ATS) used by top employers.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 step-card">
+                    <i class="fa-solid fa-wand-magic-sparkles text-resume-blue text-2xl mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">Smart Analysis</h3>
+                    <p class="text-sm text-slate-500">Instant feedback on how well your resume matches the job requirements.</p>
+                </div>
+                <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 step-card">
+                    <i class="fa-solid fa-bullseye text-resume-blue text-2xl mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">ATS Optimized</h3>
+                    <p class="text-sm text-slate-500">Templates designed specifically to be readable by machine filters.</p>
+                </div>
+                <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 step-card">
+                    <i class="fa-solid fa-spell-check text-resume-blue text-2xl mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">Gap Identification</h3>
+                    <p class="text-sm text-slate-500">We tell you exactly which keywords are missing from your profile.</p>
+                </div>
+                <div class="p-8 bg-white rounded-2xl shadow-sm border border-slate-100 step-card">
+                    <i class="fa-solid fa-chart-line text-resume-blue text-2xl mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">Better Results</h3>
+                    <p class="text-sm text-slate-500">Candidates using ResumeAI are 3x more likely to get an interview.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-slate-900 mb-4">How it Works</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto">Get your resume optimized in three simple steps.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-50 text-resume-blue rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6 border border-blue-100 shadow-sm">1</div>
+                    <h3 class="font-bold text-xl mb-3">Upload PDF</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Simply drop your current resume PDF into our smart analyzer. We support all professional formats.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-50 text-resume-blue rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6 border border-blue-100 shadow-sm">2</div>
+                    <h3 class="font-bold text-xl mb-3">Paste Job Desc</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Paste the requirements for your target role. Our AI will perform a deep semantic comparison.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-50 text-resume-blue rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6 border border-blue-100 shadow-sm">3</div>
+                    <h3 class="font-bold text-xl mb-3">Get Insights</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Receive a match score, identified skill gaps, and custom interview questions to help you prepare.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analyzer Section -->
+    <section id="analyzer" class="py-24 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-4">Analyze Your Resume</h2>
+                <p class="text-slate-500">Upload your PDF and paste the job description to get started.</p>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-2xl p-8 border border-slate-100">
+                <form action="/analyze" method="post" enctype="multipart/form-data" id="analyzeForm">
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-3">1. Upload Resume (PDF)</label>
+                            <div class="relative group h-48">
+                                <label for="resumeInput" class="sr-only">Upload Resume</label>
+                                <input type="file" name="resume" id="resumeInput" accept=".pdf" required
+                                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                <div id="uploadBox" class="border-2 border-dashed border-slate-200 group-hover:border-resume-blue rounded-2xl h-full flex flex-col items-center justify-center text-center transition bg-slate-50">
+                                    <i class="fa-solid fa-file-pdf text-3xl text-slate-300 group-hover:text-resume-blue mb-2"></i>
+                                    <p id="uploadText" class="text-sm font-semibold text-slate-500 px-4">Drop PDF here or click to browse</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-3">2. Job Description</label>
+                            <textarea name="job_description" rows="7" required 
+                                      placeholder="Paste the full job description text here..."
+                                      class="w-full p-4 border border-slate-200 rounded-2xl bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition text-sm"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" id="submitBtn" class="w-full bg-resume-blue text-white py-5 rounded-2xl font-bold text-xl hover:bg-blue-600 transition flex items-center justify-center gap-3">
+                        <span>Analyze Match Score</span>
+                        <div id="loader" class="hidden w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="max-w-3xl mx-auto px-4 py-24 bg-white">
+        <h2 class="text-4xl font-extrabold text-center text-slate-900 mb-16">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+            <details class="group p-6 bg-slate-50 border border-slate-200 rounded-2xl cursor-pointer">
+                <summary class="flex justify-between items-center font-bold text-lg text-slate-800 list-none">
+                    How does the analyzer work?
+                    <i class="fa-solid fa-chevron-down group-open:rotate-180 transition"></i>
+                </summary>
+                <p class="mt-4 text-slate-500 leading-relaxed">Our AI compares the skills and keywords in your resume against the job description to calculate a match score and provide actionable tips.</p>
+            </details>
+            <details class="group p-6 bg-slate-50 border border-slate-200 rounded-2xl cursor-pointer">
+                <summary class="flex justify-between items-center font-bold text-lg text-slate-800 list-none">
+                    Is my data secure?
+                    <i class="fa-solid fa-chevron-down group-open:rotate-180 transition"></i>
+                </summary>
+                <p class="mt-4 text-slate-500 leading-relaxed">Yes, we process your resume securely and do not share your personal information with third parties.</p>
+            </details>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-4">Get in Touch</h2>
+                <p class="text-slate-500">Questions? We're here to help.</p>
+            </div>
+            <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-lg">
+                <form action="/contact" method="post" class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <input type="text" name="name" placeholder="Full Name" required class="w-full p-4 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        <input type="email" name="email" placeholder="Email Address" required class="w-full p-4 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    </div>
+                    <div>
+                        <textarea name="message" rows="5" placeholder="Your Message" required class="w-full h-full p-4 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-slate-800 pb-12">
+            <div>
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="h-8 w-8 bg-resume-blue rounded flex items-center justify-center font-bold">R</div>
+                    <span class="text-xl font-extrabold tracking-tight">resume.<span class="text-resume-blue">ai</span></span>
+                </div>
+                <p class="text-slate-400 text-sm">Empowering candidates with AI-driven insights to outrank the competition.</p>
+            </div>
+            <div class="flex gap-12">
+                <div>
+                    <h4 class="font-bold mb-6">Product</h4>
+                    <ul class="space-y-4 text-sm text-slate-400">
+                        <li><a href="#how-it-works" class="hover:text-white transition">How it Works</a></li>
+                        <li><a href="#analyzer" class="hover:text-white transition">AI Analyzer</a></li>
+                        <li><a href="#about" class="hover:text-white transition">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Support</h4>
+                    <ul class="text-slate-400 text-sm space-y-2">
+                        <li><a href="#faq" class="hover:text-white">FAQ</a></li>
+                        <li><a href="#contact" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4">Connect</h4>
+                <div class="flex gap-4">
+                    <a href="https://linkedin.com/in/salman-ali-836033358" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-resume-blue transition" title="LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/Salman-Dev262" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-resume-blue transition" title="GitHub">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center pt-8 text-slate-500 text-xs">© 2026 ResumeAI. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Typewriter Effect
+        const words = ["a remote job", "your dream role", "higher salary", "better future"];
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
+        const typewriterEl = document.getElementById('typewriter');
+
+        function type() {
+            const currentWord = words[wordIndex];
+            typewriterEl.textContent = isDeleting ? currentWord.substring(0, charIndex - 1) : currentWord.substring(0, charIndex + 1);
+            charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+
+            if (!isDeleting && charIndex === currentWord.length) { isDeleting = true; setTimeout(type, 2000); }
+            else if (isDeleting && charIndex === 0) { isDeleting = false; wordIndex = (wordIndex + 1) % words.length; setTimeout(type, 500); }
+            else { setTimeout(type, isDeleting ? 50 : 100); }
+        }
+        type();
+
+        // File Selection Feedback
+        const resumeInput = document.getElementById('resumeInput'), uploadText = document.getElementById('uploadText'), uploadBox = document.getElementById('uploadBox');
+        resumeInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                uploadText.textContent = `Selected: ${e.target.files[0].name}`;
+                uploadBox.classList.add('border-resume-blue', 'bg-blue-50');
+            }
+        });
+
+        // Form Submission Logic
+        document.getElementById('analyzeForm').addEventListener('submit', function() {
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('loader').classList.remove('hidden');
+        });
+    </script>
+</body>
+
+</html>

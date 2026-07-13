@@ -1,0 +1,13 @@
+Generic single-database configuration with Flask-Migrate.
+
+To initialize migrations:
+    flask db init
+
+To create a new migration:
+    flask db migrate -m "Description of changes"
+
+To apply migrations:
+    flask db upgrade
+
+To revert migrations:
+    flask db downgrade
