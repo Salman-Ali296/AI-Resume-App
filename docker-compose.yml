@@ -7,8 +7,8 @@ services:
     container_name: resume_analyzer_db
     environment:
       POSTGRES_DB: resume_analyzer
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: 
+      POSTGRES_PASSWORD: 
     ports:
       - "5432:5432"
     volumes:
@@ -39,7 +39,7 @@ services:
     container_name: resume_analyzer_web
     environment:
       FLASK_ENV: development
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/resume_analyzer
+      DATABASE_URL: postgres://....................................
       REDIS_URL: redis://redis:6379/0
       CELERY_BROKER_URL: redis://redis:6379/1
       CELERY_RESULT_BACKEND: redis://redis:6379/2
@@ -61,7 +61,7 @@ services:
     container_name: resume_analyzer_celery
     environment:
       FLASK_ENV: development
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/resume_analyzer
+      DATABASE_URL: postgresql://postgres:.......................................
       REDIS_URL: redis://redis:6379/0
       CELERY_BROKER_URL: redis://redis:6379/1
       CELERY_RESULT_BACKEND: redis://redis:6379/2
